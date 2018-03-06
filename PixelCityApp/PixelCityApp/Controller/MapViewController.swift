@@ -70,6 +70,16 @@ extension MapViewController : MKMapViewDelegate {
             mapView.removeAnnotation(annotation)
         }
     }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
+        let pinAnnotation = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "dropablePin")
+        pinAnnotation.pinTintColor = #colorLiteral(red: 0.9647058824, green: 0.6509803922, blue: 0.137254902, alpha: 1)
+        pinAnnotation.animatesDrop = true
+        return pinAnnotation
+    }
 }
 
 extension MapViewController : CLLocationManagerDelegate {
