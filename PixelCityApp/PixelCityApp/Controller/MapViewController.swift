@@ -9,6 +9,8 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Alamofire
+import AlamofireImage
 
 class MapViewController: UIViewController, UIGestureRecognizerDelegate {
   //Outlets
@@ -26,7 +28,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     var collectionView: UICollectionView?
     var flowLayout = UICollectionViewFlowLayout()
     var screenSize = UIScreen.main.bounds
-    
+    var imageURLArray = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
        mapView.delegate = self
@@ -140,6 +142,10 @@ extension MapViewController : MKMapViewDelegate {
         
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(touchCoordinate, regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
+        
+        retrieveURLs(forAnnotation: annotation) { (true) in
+            print(self.imageURLArray)
+        }
     }
     
     func removePin() {
@@ -156,6 +162,23 @@ extension MapViewController : MKMapViewDelegate {
         pinAnnotation.pinTintColor = #colorLiteral(red: 0.9647058824, green: 0.6509803922, blue: 0.137254902, alpha: 1)
         pinAnnotation.animatesDrop = true
         return pinAnnotation
+    }
+    
+    func retrieveURLs(forAnnotation annotation: DropablePin, handler: @escaping (_ status: Bool) -> ()) {
+        imageURLArray = []
+        Alamofire.request(flickrURL(forAPIKey: API_KEY
+            , withAnnotation: annotation, andNumberOfPhotos: 40)).responseJSON { (response) in
+                //print(response)
+               // handler(true)
+                guard let json = response.result.value as? Dictionary<String, AnyObject> else { return }
+                let photosDict = json["photos"] as! Dictionary<String, AnyObject>
+                let photosDictArray = photosDict["photo"] as! [Dictionary<String, AnyObject>]
+                for photo in photosDictArray {
+                    let postURL = "https://farm\(photo["farm"]!).staticflickr.com/\(photo["server"]!)/\(photo["id"]!)_\(photo["secret"]!)_h_d.jpg"
+                    self.imageURLArray.append(postURL)
+                }
+                handler(true)
+        }
     }
 }
 
