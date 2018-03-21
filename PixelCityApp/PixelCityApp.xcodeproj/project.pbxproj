@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B3A312E2061CFE4009A90ED /* PopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3A312D2061CFE4009A90ED /* PopViewController.swift */; };
 		3B560439203E618C00CA1712 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B560438203E618C00CA1712 /* AppDelegate.swift */; };
 		3B56043B203E618D00CA1712 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B56043A203E618D00CA1712 /* MapViewController.swift */; };
 		3B56043E203E618D00CA1712 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B56043C203E618D00CA1712 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B3A312D2061CFE4009A90ED /* PopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopViewController.swift; sourceTree = "<group>"; };
 		3B560435203E618C00CA1712 /* PixelCityApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelCityApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B560438203E618C00CA1712 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B56043A203E618D00CA1712 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				3B56043A203E618D00CA1712 /* MapViewController.swift */,
+				3B3A312D2061CFE4009A90ED /* PopViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 			files = (
 				3B56045320521E8200CA1712 /* Constants.swift in Sources */,
 				3B56043B203E618D00CA1712 /* MapViewController.swift in Sources */,
+				3B3A312E2061CFE4009A90ED /* PopViewController.swift in Sources */,
 				3B5604512050D38A00CA1712 /* PhotoCollectionViewCell.swift in Sources */,
 				3B56044F204E88DF00CA1712 /* DropablePin.swift in Sources */,
 				3B560439203E618C00CA1712 /* AppDelegate.swift in Sources */,
