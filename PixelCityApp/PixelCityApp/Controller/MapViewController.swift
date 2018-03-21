@@ -43,7 +43,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         collectionView?.delegate = self
         collectionView?.dataSource = self
         collectionView?.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        registerForPreviewing(with: self, sourceView: collectionView!)
         pullUpView.addSubview(collectionView!)
+        
+        
     }
     
     func addDoubleTap() {
@@ -182,8 +185,8 @@ extension MapViewController : MKMapViewDelegate {
     func retrieveURLs(forAnnotation annotation: DropablePin, handler: @escaping (_ status: Bool) -> ()) {
         
         Alamofire.request(flickrURL(forAPIKey: API_KEY
-            , withAnnotation: annotation, andNumberOfPhotos: 40)).responseJSON { (response) in
-                //print(response)
+            , withAnnotation: annotation, andNumberOfPhotos: 30)).responseJSON { (response) in
+                print(response)
                // handler(true)
                 guard let json = response.result.value as? Dictionary<String, AnyObject> else { return }
                 let photosDict = json["photos"] as! Dictionary<String, AnyObject>
@@ -202,7 +205,7 @@ extension MapViewController : MKMapViewDelegate {
             Alamofire.request(url).responseImage(completionHandler: { (response) in
                 guard let image = response.result.value else { return }
                 self.imageArray.append(image)
-                self.progressLbl?.text = "\(self.imageArray.count)/40 IMAGES DOWNLOADED"
+                self.progressLbl?.text = "\(self.imageArray.count)/30 IMAGES DOWNLOADED"
                 
                 if self.imageArray.count == self.imageURLArray.count {
                     handler(true)
@@ -261,5 +264,23 @@ extension MapViewController: UICollectionViewDelegate, UICollectionViewDataSourc
        popViewController.initData(forImage: imageArray[indexPath.row])
         present(popViewController, animated: true, completion: nil)
     }
+    
+}
+
+extension MapViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = collectionView?.indexPathForItem(at: location), let cell = collectionView?.cellForItem(at: indexPath) else { return nil }
+        
+        guard let popVC = storyboard?.instantiateViewController(withIdentifier: "PopViewController") as? PopViewController else { return nil }
+        popVC.initData(forImage: imageArray[indexPath.row])
+        
+        previewingContext.sourceRect = cell.contentView.frame
+        return popVC
+        
+    }
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
+    }
+    
     
 }
